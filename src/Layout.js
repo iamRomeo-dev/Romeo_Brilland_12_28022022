@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import "twin.macro";
+import { CustomerList } from "./CustomerList";
 import { Home } from "./Home";
 
 export const Layout = () => {
@@ -33,7 +34,7 @@ export const Layout = () => {
                       </Link>
                       <Link
                         tw="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
-                        to="/"
+                        to="/customer"
                       >
                         View Current Employees
                       </Link>
@@ -163,7 +164,7 @@ export const Layout = () => {
 
                 <Link
                   tw="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  to="/"
+                  to="/customer"
                 >
                   View Current Employees
                 </Link>
@@ -245,6 +246,7 @@ export const Layout = () => {
             <div tw="border-4 border-dashed border-gray-200 rounded-lg h-96">
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/customer" element={<CustomerList />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </div>
