@@ -1,8 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import "twin.macro";
 
-function App() {
-  return <h1 tw="text-red-200">HRnet</h1>;
-}
+import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import { Home, Home1 } from "./Home";
 
-export default App;
+export const App = () => {
+  return (
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/a" element={<Home1 />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
