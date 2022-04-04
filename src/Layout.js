@@ -7,7 +7,6 @@ import { Home } from "./Home";
 
 export const Layout = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showLoginMenu, setShowLoginMenu] = useState(false);
   return (
     <div tw="min-h-full">
       <div tw="bg-gray-800 pb-32">
@@ -120,15 +119,11 @@ export const Layout = () => {
 
       <main tw="-mt-32">
         <div tw="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-          <div tw="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-            <div tw="border-4 border-dashed border-gray-200 rounded-lg h-96">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/customer" element={<CustomerList />} />
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
-            </div>
-          </div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/customer" element={<CustomerList />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
         </div>
       </main>
     </div>

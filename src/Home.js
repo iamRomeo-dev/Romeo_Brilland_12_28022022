@@ -1,18 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import { toBeInTheDOM } from "@testing-library/jest-dom/dist/matchers";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import "twin.macro";
 import { Button, PrimaryButton } from "./Button";
 import { ErrorMessage, FormGroup, Label, RequiredAsterisk } from "./Form";
+import { Modal } from "./Modal";
 import { useSetUser } from "./MyContext";
+import { Department, USAStates } from "./utils/USAStates";
 
 export const Home = () => {
   const setUser = useSetUser();
+  const [department, setDepartment] = useState();
+  const [state, setState] = useState();
 
   const onSubmit = (data) => {
-    console.log("form", data);
-    setUser(data);
+    console.log("form", { ...data, department: department, state: state });
+    setUser({ ...data, department: department, state: state });
+    <Modal />;
   };
 
   const {
@@ -35,157 +40,147 @@ export const Home = () => {
 
   return (
     <>
-      <div tw="sm:flex-auto py-5 px-4 sm:p-6">
-        <h1 tw="text-xl font-semibold text-gray-900">Create Employee</h1>
-      </div>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <section tw="shadow-sm bg-white sm:rounded-md -mx-4 sm:mx-0">
           <div tw="py-5 px-4 sm:p-6">
-            <div tw="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
-              <FormGroup>
-                <Label htmlFor="first_name">
-                  "First name
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("first_name", {
-                    required: "First name required",
-                  })}
-                  type="text"
-                  id="first_name"
-                />
-                <ErrorMessage>{errors.first_name?.message}</ErrorMessage>
-              </FormGroup>
+            <div tw="grid grid-cols-2 gap-6">
+              <div tw="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+                <h3 tw="text-lg leading-6 font-medium text-gray-900">
+                  Create Employee
+                </h3>
+                <div tw="flex gap-4 flex-wrap">
+                  <FormGroup>
+                    <Label htmlFor="first_name">
+                      First Name
+                      <RequiredAsterisk tw="text-red-500" />
+                    </Label>
+                    <input
+                      id="first_name"
+                      name="first_name"
+                      type="text"
+                      {...register("first_name", {
+                        required: "First Name is required",
+                      })}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />{" "}
+                    <ErrorMessage>{errors.first_name?.message}</ErrorMessage>
+                  </FormGroup>
 
-              <FormGroup>
-                <Label htmlFor="last_name">
-                  Last name
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("last_name", {
-                    required: "Last name required",
-                  })}
-                  type="text"
-                  id="last_name"
-                />
-                <ErrorMessage>{errors.last_name?.message}</ErrorMessage>
-              </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="last_name">Last Name</Label>
+                    <input
+                      id="last_name"
+                      name="last_name"
+                      type="text"
+                      {...register("last_name")}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </FormGroup>
 
-              <FormGroup>
-                <Label htmlFor="birth_day">
-                  Birthday
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  type="date"
-                  name="week"
-                  id="birth_day"
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("birth_day", {
-                    required: "birthday required",
-                  })}
-                ></input>
-                <ErrorMessage>{errors.birth_day?.message}</ErrorMessage>
-              </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="birth_day">Date of birth</Label>
+                    <input
+                      id="birth_day"
+                      name="birth_day"
+                      type="date"
+                      {...register("birth_day")}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </FormGroup>
 
-              <FormGroup>
-                <Label htmlFor="start_date">
-                  Start date
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("start_date", {
-                    required: "Start date required",
-                  })}
-                  type="date"
-                  id="start_date"
-                />
-                <ErrorMessage>{errors.start_date?.message}</ErrorMessage>
-              </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="start_date">Start Date</Label>
+                    <input
+                      id="start_date"
+                      name="start_date"
+                      type="date"
+                      {...register("start_date")}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </FormGroup>
 
-              <FormGroup>
-                <Label htmlFor="street">
-                  Street
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("street", {
-                    required: "Street required",
-                  })}
-                  type="text"
-                  id="street"
-                />
-                <ErrorMessage>{errors.street?.message}</ErrorMessage>
-              </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="department">Department</Label>
+                    <select
+                      onChange={(e) => {
+                        setDepartment(e.target.value);
+                      }}
+                      id="typee"
+                      name="typee"
+                      tw="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    >
+                      {Department.map((option, index) => (
+                        <option key={index} value={option._id}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </FormGroup>
+                </div>
+              </div>
 
-              <FormGroup>
-                <Label htmlFor="city">
-                  City
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("city", {
-                    required: "City required",
-                  })}
-                  type="text"
-                  id="city"
-                />
-                <ErrorMessage>{errors.city?.message}</ErrorMessage>
-              </FormGroup>
+              <div tw="bg-gray-100 rounded-lg shadow px-5 py-6 sm:px-6">
+                <h3 tw="text-lg leading-6 font-medium text-gray-900">
+                  Address
+                </h3>
+                <div tw="flex gap-4 flex-wrap">
+                  <FormGroup>
+                    <Label htmlFor="street">
+                      Street
+                      <RequiredAsterisk tw="text-red-500" />
+                    </Label>
+                    <input
+                      id="street"
+                      name="street"
+                      type="text"
+                      {...register("street")}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </FormGroup>
 
-              <FormGroup>
-                <Label htmlFor="state">
-                  State
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("state", {
-                    required: "State required",
-                  })}
-                  type="text"
-                  id="state"
-                />
-                <ErrorMessage>{errors.state?.message}</ErrorMessage>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="zip_code">
-                  zip_code
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("zip_code", {
-                    required: "zip_code required",
-                  })}
-                  type="text"
-                  id="zip_code"
-                />
-                <ErrorMessage>{errors.zip_code?.message}</ErrorMessage>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="department">
-                  Department
-                  <RequiredAsterisk tw="text-red-500" />
-                </Label>
-                <input
-                  tw="flex-1 block w-full text-sm z-0 focus:z-10 border-gray-300 rounded-md focus:(ring-indigo-500 border-indigo-500) disabled:(bg-gray-50 text-gray-500)"
-                  {...register("department", {
-                    required: "department required",
-                  })}
-                  type="text"
-                  id="department"
-                />
-                <ErrorMessage>{errors.department?.message}</ErrorMessage>
-              </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="city">City</Label>
+                    <input
+                      id="city"
+                      name="city"
+                      type="text"
+                      {...register("city")}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label htmlFor="department">State</Label>
+                    <select
+                      onChange={(e) => {
+                        setState(e.target.value);
+                      }}
+                      id="typee"
+                      name="typee"
+                      tw="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                    >
+                      {USAStates.map((option, index) => (
+                        <option key={index} value={option._id}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label htmlFor="zip_code">Zip Code</Label>
+                    <input
+                      id="zip_code"
+                      name="zip_code"
+                      type="text"
+                      {...register("zip_code")}
+                      tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </FormGroup>
+                </div>
+              </div>
             </div>
+
             <div tw="flex space-x-3 items-center justify-end mt-8">
               <Button as={Link} to={`/`}>
                 Return
