@@ -9,7 +9,7 @@ export const App = () => {
     <div>
       <BrowserRouter>
         <UserProviderByMe>
-          <Layout />{" "}
+          <Layout />
         </UserProviderByMe>
       </BrowserRouter>
     </div>
