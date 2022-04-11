@@ -7,7 +7,8 @@ import { Pagination } from "./Pagination";
 export const CustomerList = () => {
   const [sortBy, setSortBy] = useState("first_name");
   const [search, setSearch] = useState("");
-  console.log("sortBy", sortBy);
+  const [usersPerPage, setUsersPerPage] = useState(5);
+
   // Page number is where we are. Starts a 0 by default and if a page is set in the local storage, it is saved
   const [currentPageNumber, setCurrentPageNumber] = useState(
     localStorage.getItem("locationSearch") !== null
@@ -15,7 +16,6 @@ export const CustomerList = () => {
       : 0
   );
 
-  const usersPerPage = 5;
   const pagesVisited = currentPageNumber * usersPerPage;
   let userData = localStorage.getItem("userData");
   const parsedUserData = JSON.parse(userData);
@@ -32,14 +32,29 @@ export const CustomerList = () => {
         <div tw="mt-8 flex flex-col">
           <div tw="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div tw="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <input
-                onChange={inputSearchHandler}
-                id="search"
-                tw="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:(outline-none placeholder-gray-400 ring-0 border-transparent) sm:(text-sm)"
-                placeholder="Search"
-                type="search"
-              />
+              <div tw="flex gap-4 p-4 items-center">
+                <input
+                  onChange={inputSearchHandler}
+                  id="search"
+                  tw="block w-full h-full pl-8 pr-3 py-2 border border-gray-300 text-gray-900 placeholder-gray-500 sm:text-sm rounded-md focus:(outline-none placeholder-gray-400 ring-0 border-transparent) sm:(text-sm)"
+                  placeholder="Search"
+                  type="search"
+                />
 
+                <select
+                  id="usersPerPage"
+                  name="usersPerPage"
+                  tw="block pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  defaultValue="5"
+                  onChange={(e) => {
+                    setUsersPerPage(Number(e.target.value));
+                  }}
+                >
+                  <option>5</option>
+                  <option>10</option>
+                  <option>15</option>
+                </select>
+              </div>
               <div tw="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <table tw="min-w-full divide-y divide-gray-300">
                   <thead tw="bg-gray-50">
