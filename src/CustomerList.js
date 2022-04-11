@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import "twin.macro";
 import { Pagination } from "./Pagination";
 
 export const CustomerList = () => {
+  const [sortBy, setSortBy] = useState("first_name");
+  console.log("sortBy", sortBy);
   // Page number is where we are. Starts a 0 by default and if a page is set in the local storage, it is saved
   const [currentPageNumber, setCurrentPageNumber] = useState(
     localStorage.getItem("locationSearch") !== null
@@ -11,7 +14,7 @@ export const CustomerList = () => {
       : 0
   );
 
-  const usersPerPage = 1;
+  const usersPerPage = 5;
   const pagesVisited = currentPageNumber * usersPerPage;
   let userData = localStorage.getItem("userData");
   const parsedUserData = JSON.parse(userData);
@@ -31,65 +34,165 @@ export const CustomerList = () => {
                       <th
                         scope="col"
                         tw="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
+                        onClick={() => setSortBy("first_name")}
                       >
-                        First Name
+                        <div tw="flex gap-2">
+                          First Name
+                          {sortBy === "first_name" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("last_name")}
                       >
-                        Last Name
+                        <div tw="flex gap-2">
+                          Last Name
+                          {sortBy === "last_name" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("start_date")}
                       >
-                        Start Date
+                        <div tw="flex gap-2">
+                          Start Date
+                          {sortBy === "start_date" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("department")}
                       >
-                        Department
+                        <div tw="flex gap-2">
+                          Department
+                          {sortBy === "department" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
+                        onClick={() => setSortBy("birth_day")}
                       >
-                        Date of Birth
+                        <div tw="flex gap-2">
+                          Date of Birth
+                          {sortBy === "birth_day" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("street")}
                       >
-                        Street
+                        <div tw="flex gap-2">
+                          Street
+                          {sortBy === "street" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("city")}
                       >
-                        City
+                        <div tw="flex gap-2">
+                          City
+                          {sortBy === "city" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("state")}
                       >
-                        State
+                        <div tw="flex gap-2">
+                          State
+                          {sortBy === "state" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                       <th
                         scope="col"
                         tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                        onClick={() => setSortBy("zip_code")}
                       >
-                        Zip Code
+                        <div tw="flex gap-2">
+                          Zip Code
+                          {sortBy === "zip_code" ? (
+                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          ) : (
+                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                          )}
+                        </div>
                       </th>
                     </tr>
                   </thead>
                   <tbody tw="divide-y divide-gray-200 bg-white">
                     {parsedUserData
                       .sort((a, b) =>
-                        a.first_name
-                          .toLowerCase()
-                          .localeCompare(b.first_name.toLowerCase())
+                        sortBy === "last_name"
+                          ? a.last_name
+                              .toLowerCase()
+                              .localeCompare(b.last_name.toLowerCase())
+                          : sortBy === "department"
+                          ? (a.department === undefined ? "" : a.department)
+                              .toLowerCase()
+                              .localeCompare(b.department.toLowerCase())
+                          : sortBy === "birth_day"
+                          ? a.birth_day
+                              .toLowerCase()
+                              .localeCompare(b.birth_day.toLowerCase())
+                          : sortBy === "street"
+                          ? a.street
+                              .toLowerCase()
+                              .localeCompare(b.street.toLowerCase())
+                          : sortBy === "city"
+                          ? a.city
+                              .toLowerCase()
+                              .localeCompare(b.city.toLowerCase())
+                          : sortBy === "state"
+                          ? (a.state === undefined ? "" : a.state)
+                              .toLowerCase()
+                              .localeCompare(b.state.toLowerCase())
+                          : sortBy === "zip_code"
+                          ? a.zip_code
+                              .toLowerCase()
+                              .localeCompare(b.zip_code.toLowerCase())
+                          : a.first_name
+                              .toLowerCase()
+                              .localeCompare(b.first_name.toLowerCase())
                       )
                       // first page is the number per page, then next page will be this page plus the number of users per page
                       .slice(pagesVisited, pagesVisited + usersPerPage)
