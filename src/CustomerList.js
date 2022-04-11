@@ -6,6 +6,7 @@ import { Pagination } from "./Pagination";
 
 export const CustomerList = () => {
   const [sortBy, setSortBy] = useState("first_name");
+  const [search, setSearch] = useState("");
   console.log("sortBy", sortBy);
   // Page number is where we are. Starts a 0 by default and if a page is set in the local storage, it is saved
   const [currentPageNumber, setCurrentPageNumber] = useState(
@@ -21,12 +22,24 @@ export const CustomerList = () => {
   // ceil around to up number. Provide the total of pages
   const totalOfPages = Math.ceil(parsedUserData.length / usersPerPage);
 
+  let inputSearchHandler = (e) => {
+    let lowerCase = e.target.value;
+    setSearch(lowerCase);
+  };
   return (
     <section tw="shadow-sm bg-white sm:rounded-md -mx-4 sm:mx-0">
       <div tw="px-4 sm:px-6 lg:px-8">
         <div tw="mt-8 flex flex-col">
           <div tw="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div tw="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <input
+                onChange={inputSearchHandler}
+                id="search"
+                tw="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:(outline-none placeholder-gray-400 ring-0 border-transparent) sm:(text-sm)"
+                placeholder="Search"
+                type="search"
+              />
+
               <div tw="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <table tw="min-w-full divide-y divide-gray-300">
                   <thead tw="bg-gray-50">
@@ -167,9 +180,10 @@ export const CustomerList = () => {
                               .toLowerCase()
                               .localeCompare(b.last_name.toLowerCase())
                           : sortBy === "department"
-                          ? (a.department === undefined ? "" : a.department)
-                              .toLowerCase()
-                              .localeCompare(b.department.toLowerCase())
+                          ? // for the select add an empty string if nothing is selected
+                            (a?.department === undefined ? "" : a?.department)
+                              ?.toLowerCase()
+                              .localeCompare(b?.department?.toLowerCase())
                           : sortBy === "birth_day"
                           ? a.birth_day
                               .toLowerCase()
@@ -183,9 +197,9 @@ export const CustomerList = () => {
                               .toLowerCase()
                               .localeCompare(b.city.toLowerCase())
                           : sortBy === "state"
-                          ? (a.state === undefined ? "" : a.state)
-                              .toLowerCase()
-                              .localeCompare(b.state.toLowerCase())
+                          ? (a?.state === undefined ? "" : a?.state)
+                              ?.toLowerCase()
+                              .localeCompare(b?.state?.toLowerCase())
                           : sortBy === "zip_code"
                           ? a.zip_code
                               .toLowerCase()
@@ -194,6 +208,34 @@ export const CustomerList = () => {
                               .toLowerCase()
                               .localeCompare(b.first_name.toLowerCase())
                       )
+                      .filter(
+                        (user) =>
+                          user.first_name
+                            .toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user.last_name
+                            .toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user?.department
+                            ?.toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user.birth_day
+                            .toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user.street
+                            .toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user.city
+                            .toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user?.state
+                            ?.toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          user.zip_code
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                      )
+
                       // first page is the number per page, then next page will be this page plus the number of users per page
                       .slice(pagesVisited, pagesVisited + usersPerPage)
                       .map((user) => (
@@ -202,28 +244,28 @@ export const CustomerList = () => {
                             {user.first_name}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.last_name}{" "}
+                            {user.last_name}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.start_date}{" "}
+                            {user.start_date}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.department}{" "}
+                            {user.department ? user.department : ""}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {user.birth_day}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.street}{" "}
+                            {user.street}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.city}{" "}
+                            {user.city}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.state}{" "}
+                            {user.state ? user.state : ""}
                           </td>
                           <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.zip_code}{" "}
+                            {user.zip_code}
                           </td>
                         </tr>
                       ))}
