@@ -1,6 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  PlusIcon,
+} from "@heroicons/react/solid";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "twin.macro";
 import { Pagination } from "./Pagination";
 
@@ -17,11 +22,14 @@ export const CustomerList = () => {
   );
 
   const pagesVisited = currentPageNumber * usersPerPage;
-  let userData = localStorage.getItem("userData");
-  const parsedUserData = JSON.parse(userData);
+  let userData =
+    localStorage.getItem("userData") !== null
+      ? localStorage.getItem("userData")
+      : "";
+  const parsedUserData =
+    localStorage.getItem("userData") !== null ? JSON.parse(userData) : "";
   // ceil around to up number. Provide the total of pages
   const totalOfPages = Math.ceil(parsedUserData.length / usersPerPage);
-
   let inputSearchHandler = (e) => {
     let lowerCase = e.target.value;
     setSearch(lowerCase);
@@ -55,243 +63,277 @@ export const CustomerList = () => {
                   <option>15</option>
                 </select>
               </div>
-              <div tw="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table tw="min-w-full divide-y divide-gray-300">
-                  <thead tw="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        tw="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
-                        onClick={() => setSortBy("first_name")}
-                      >
-                        <div tw="flex gap-2">
-                          First Name
-                          {sortBy === "first_name" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("last_name")}
-                      >
-                        <div tw="flex gap-2">
-                          Last Name
-                          {sortBy === "last_name" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("start_date")}
-                      >
-                        <div tw="flex gap-2">
-                          Start Date
-                          {sortBy === "start_date" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("department")}
-                      >
-                        <div tw="flex gap-2">
-                          Department
-                          {sortBy === "department" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
-                        onClick={() => setSortBy("birth_day")}
-                      >
-                        <div tw="flex gap-2">
-                          Date of Birth
-                          {sortBy === "birth_day" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("street")}
-                      >
-                        <div tw="flex gap-2">
-                          Street
-                          {sortBy === "street" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("city")}
-                      >
-                        <div tw="flex gap-2">
-                          City
-                          {sortBy === "city" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("state")}
-                      >
-                        <div tw="flex gap-2">
-                          State
-                          {sortBy === "state" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                      <th
-                        scope="col"
-                        tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                        onClick={() => setSortBy("zip_code")}
-                      >
-                        <div tw="flex gap-2">
-                          Zip Code
-                          {sortBy === "zip_code" ? (
-                            <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          ) : (
-                            <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
-                          )}
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody tw="divide-y divide-gray-200 bg-white">
-                    {parsedUserData
-                      .sort((a, b) =>
-                        sortBy === "last_name"
-                          ? a.last_name
-                              .toLowerCase()
-                              .localeCompare(b.last_name.toLowerCase())
-                          : sortBy === "department"
-                          ? // for the select add an empty string if nothing is selected
-                            (a?.department === undefined ? "" : a?.department)
-                              ?.toLowerCase()
-                              .localeCompare(b?.department?.toLowerCase())
-                          : sortBy === "birth_day"
-                          ? a.birth_day
-                              .toLowerCase()
-                              .localeCompare(b.birth_day.toLowerCase())
-                          : sortBy === "street"
-                          ? a.street
-                              .toLowerCase()
-                              .localeCompare(b.street.toLowerCase())
-                          : sortBy === "city"
-                          ? a.city
-                              .toLowerCase()
-                              .localeCompare(b.city.toLowerCase())
-                          : sortBy === "state"
-                          ? (a?.state === undefined ? "" : a?.state)
-                              ?.toLowerCase()
-                              .localeCompare(b?.state?.toLowerCase())
-                          : sortBy === "zip_code"
-                          ? a.zip_code
-                              .toLowerCase()
-                              .localeCompare(b.zip_code.toLowerCase())
-                          : a.first_name
-                              .toLowerCase()
-                              .localeCompare(b.first_name.toLowerCase())
-                      )
-                      .filter(
-                        (user) =>
-                          user.first_name
-                            .toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user.last_name
-                            .toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user?.department
-                            ?.toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user.birth_day
-                            .toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user.street
-                            .toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user.city
-                            .toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user?.state
-                            ?.toLowerCase()
-                            .includes(search.toLowerCase()) ||
-                          user.zip_code
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                      )
 
-                      // first page is the number per page, then next page will be this page plus the number of users per page
-                      .slice(pagesVisited, pagesVisited + usersPerPage)
-                      .map((user) => (
-                        <tr key={user.first_name}>
-                          <td tw="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                            {user.first_name}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.last_name}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.start_date}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.department ? user.department : ""}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.birth_day}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.street}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.city}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.state ? user.state : ""}
-                          </td>
-                          <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.zip_code}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-              <Pagination
-                totalOfPages={totalOfPages}
-                currentPageNumber={currentPageNumber}
-                setCurrentPageNumber={setCurrentPageNumber}
-              />
+              {parsedUserData.length > 0 ? (
+                <div tw="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                  <table tw="min-w-full divide-y divide-gray-300">
+                    <thead tw="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          tw="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
+                          onClick={() => setSortBy("first_name")}
+                        >
+                          <div tw="flex gap-2">
+                            First Name
+                            {sortBy === "first_name" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("last_name")}
+                        >
+                          <div tw="flex gap-2">
+                            Last Name
+                            {sortBy === "last_name" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("start_date")}
+                        >
+                          <div tw="flex gap-2">
+                            Start Date
+                            {sortBy === "start_date" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("department")}
+                        >
+                          <div tw="flex gap-2">
+                            Department
+                            {sortBy === "department" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
+                          onClick={() => setSortBy("birth_day")}
+                        >
+                          <div tw="flex gap-2">
+                            Date of Birth
+                            {sortBy === "birth_day" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("street")}
+                        >
+                          <div tw="flex gap-2">
+                            Street
+                            {sortBy === "street" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("city")}
+                        >
+                          <div tw="flex gap-2">
+                            City
+                            {sortBy === "city" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("state")}
+                        >
+                          <div tw="flex gap-2">
+                            State
+                            {sortBy === "state" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                        <th
+                          scope="col"
+                          tw="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                          onClick={() => setSortBy("zip_code")}
+                        >
+                          <div tw="flex gap-2">
+                            Zip Code
+                            {sortBy === "zip_code" ? (
+                              <ChevronUpIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            ) : (
+                              <ChevronDownIcon tw="mr-3 h-5 w-5 text-gray-400" />
+                            )}
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody tw="divide-y divide-gray-200 bg-white">
+                      {parsedUserData
+                        .sort((a, b) =>
+                          sortBy === "last_name"
+                            ? a.last_name
+                                .toLowerCase()
+                                .localeCompare(b.last_name.toLowerCase())
+                            : sortBy === "department"
+                            ? // for the select add an empty string if nothing is selected
+                              (a?.department === undefined ? "" : a?.department)
+                                ?.toLowerCase()
+                                .localeCompare(b?.department?.toLowerCase())
+                            : sortBy === "birth_day"
+                            ? a.birth_day
+                                .toLowerCase()
+                                .localeCompare(b.birth_day.toLowerCase())
+                            : sortBy === "street"
+                            ? a.street
+                                .toLowerCase()
+                                .localeCompare(b.street.toLowerCase())
+                            : sortBy === "city"
+                            ? a.city
+                                .toLowerCase()
+                                .localeCompare(b.city.toLowerCase())
+                            : sortBy === "state"
+                            ? (a?.state === undefined ? "" : a?.state)
+                                ?.toLowerCase()
+                                .localeCompare(b?.state?.toLowerCase())
+                            : sortBy === "zip_code"
+                            ? a.zip_code
+                                .toLowerCase()
+                                .localeCompare(b.zip_code.toLowerCase())
+                            : a.first_name
+                                .toLowerCase()
+                                .localeCompare(b.first_name.toLowerCase())
+                        )
+                        .filter(
+                          (user) =>
+                            user.first_name
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user.last_name
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user?.department
+                              ?.toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user.birth_day
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user.street
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user.city
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user?.state
+                              ?.toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                            user.zip_code
+                              .toLowerCase()
+                              .includes(search.toLowerCase())
+                        )
+
+                        // first page is the number per page, then next page will be this page plus the number of users per page
+                        .slice(pagesVisited, pagesVisited + usersPerPage)
+                        .map((user) => (
+                          <tr key={user.first_name}>
+                            <td tw="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                              {user.first_name}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.last_name}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.start_date}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.department ? user.department : ""}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.birth_day}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.street}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.city}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.state ? user.state : ""}
+                            </td>
+                            <td tw="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              {user.zip_code}
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                  <Pagination
+                    totalOfPages={totalOfPages}
+                    currentPageNumber={currentPageNumber}
+                    setCurrentPageNumber={setCurrentPageNumber}
+                  />
+                </div>
+              ) : (
+                <div tw="text-center p-4">
+                  <svg
+                    tw="mx-auto h-12 w-12 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      vectorEffect="non-scaling-stroke"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                  <h3 tw="mt-2 text-sm font-medium text-gray-900">No user</h3>
+                  <p tw="mt-1 text-sm text-gray-500">
+                    Get started by creating a new user.
+                  </p>
+                  <div tw="mt-6">
+                    <Link
+                      to="/"
+                      tw="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <PlusIcon tw="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                      Create user
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
