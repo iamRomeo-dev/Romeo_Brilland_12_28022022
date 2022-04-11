@@ -3,7 +3,7 @@ import { useState } from "react";
 import "twin.macro";
 import { FormCreation } from "./FormCreation";
 import { Modal } from "./Modal";
-import { useSetShowResults, useSetUser, useShowResult } from "./MyContext";
+import { useShowResult } from "./MyContext";
 
 export const Home = () => {
   const showResults = useShowResult();

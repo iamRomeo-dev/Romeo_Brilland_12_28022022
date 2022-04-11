@@ -1,9 +1,23 @@
 /** @jsxImportSource @emotion/react */
+import { useState } from "react";
 import "twin.macro";
+import { Pagination } from "./Pagination";
 
 export const CustomerList = () => {
+  // Page number is where we are. Starts a 0 by default and if a page is set in the local storage, it is saved
+  const [currentPageNumber, setCurrentPageNumber] = useState(
+    localStorage.getItem("locationSearch") !== null
+      ? localStorage.getItem("locationSearch")
+      : 0
+  );
+
+  const usersPerPage = 1;
+  const pagesVisited = currentPageNumber * usersPerPage;
   let userData = localStorage.getItem("userData");
   const parsedUserData = JSON.parse(userData);
+  // ceil around to up number. Provide the total of pages
+  const totalOfPages = Math.ceil(parsedUserData.length / usersPerPage);
+
   return (
     <section tw="shadow-sm bg-white sm:rounded-md -mx-4 sm:mx-0">
       <div tw="px-4 sm:px-6 lg:px-8">
@@ -77,6 +91,8 @@ export const CustomerList = () => {
                           .toLowerCase()
                           .localeCompare(b.first_name.toLowerCase())
                       )
+                      // first page is the number per page, then next page will be this page plus the number of users per page
+                      .slice(pagesVisited, pagesVisited + usersPerPage)
                       .map((user) => (
                         <tr key={user.first_name}>
                           <td tw="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
@@ -111,6 +127,11 @@ export const CustomerList = () => {
                   </tbody>
                 </table>
               </div>
+              <Pagination
+                totalOfPages={totalOfPages}
+                currentPageNumber={currentPageNumber}
+                setCurrentPageNumber={setCurrentPageNumber}
+              />
             </div>
           </div>
         </div>
