@@ -5,21 +5,28 @@ import { Link } from "react-router-dom";
 import "twin.macro";
 import { Button, PrimaryButton } from "./Button";
 import { ErrorMessage, FormGroup, Label, RequiredAsterisk } from "./Form";
-import { useSetShowResults, useSetUser } from "./MyContext";
+import { useSetShowResults } from "./MyContext";
 import { Department, USAStates } from "./utils/USAStates";
 
 export const FormCreation = () => {
-  const setUser = useSetUser();
   const setShowResults = useSetShowResults();
   const [department, setDepartment] = useState();
   const [state, setState] = useState();
 
+  const tempDatas = [];
+
   const onSubmit = (data) => {
-    console.log("form", { ...data, department: department, state: state });
-    setUser({ ...data, department: department, state: state });
+    if (localStorage.getItem("userData") !== null) {
+      let userData = localStorage.getItem("userData");
+      let parsedUserData = JSON.parse(userData);
+      for (let i = 0; i < parsedUserData.length; i++) {
+        tempDatas.push(parsedUserData[i]);
+      }
+    }
+    tempDatas.push({ ...data, department: department, state: state });
+    localStorage.setItem("userData", JSON.stringify(tempDatas));
     setShowResults(true);
   };
-
   const {
     register,
     handleSubmit,
