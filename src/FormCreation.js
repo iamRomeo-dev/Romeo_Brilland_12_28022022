@@ -51,7 +51,7 @@ export const FormCreation = () => {
         <section tw="shadow-sm bg-white sm:rounded-md -mx-4 sm:mx-0">
           <div tw="py-5 px-4 sm:p-6">
             <div tw="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
-              <div tw="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+              <div tw="bg-gray-100 rounded-lg shadow px-5 py-6 sm:px-6">
                 <h3 tw="text-lg leading-6 font-medium text-gray-900">
                   Create Employee
                 </h3>
@@ -189,9 +189,6 @@ export const FormCreation = () => {
             </div>
 
             <div tw="flex space-x-3 items-center justify-end mt-8">
-              <Button as={Link} to={`/`}>
-                Return
-              </Button>
               <PrimaryButton type="submit">Valide</PrimaryButton>
             </div>
           </div>
