@@ -264,7 +264,7 @@ export const CustomerList = () => {
                         // first page is the number per page, then next page will be this page plus the number of users per page
                         .slice(pagesVisited, pagesVisited + usersPerPage)
                         .map((user) => (
-                          <tr key={user.first_name}>
+                          <tr key={user.createdAt}>
                             <td tw="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                               {user.first_name}
                             </td>

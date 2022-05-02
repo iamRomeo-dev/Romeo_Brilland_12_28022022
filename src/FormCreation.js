@@ -23,7 +23,12 @@ export const FormCreation = () => {
         tempDatas.push(parsedUserData[i]);
       }
     }
-    tempDatas.push({ ...data, department: department, state: state });
+    tempDatas.push({
+      ...data,
+      department: department,
+      state: state,
+      createdAt: new Date(),
+    });
     localStorage.setItem("userData", JSON.stringify(tempDatas));
     setShowResults(true);
   };
@@ -42,6 +47,7 @@ export const FormCreation = () => {
       state: "",
       zip_code: "",
       department: "",
+      createdAt: "",
     },
   });
 
