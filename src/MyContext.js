@@ -5,7 +5,6 @@ const UserContext = createContext(null);
 export const UserProviderByMe = ({ children }) => {
   const [dataUser, setDataUser] = useState({});
   const [showResults, setShowResults] = useState(false);
-  console.log("dataUser", dataUser);
   return (
     <UserContext.Provider
       value={{ dataUser, setDataUser, showResults, setShowResults }}
