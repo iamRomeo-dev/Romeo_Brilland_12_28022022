@@ -1,10 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import "twin.macro";
-import { useSetShowResults, useShowResult } from "./MyContext";
 
-export const Modal = () => {
-  const setShowResults = useSetShowResults();
-  const showResults = useShowResult();
+export const Modal = ({ setShowResults, showResults }) => {
   return (
     <div
       tw="fixed inset-0 overflow-y-auto mt-20"

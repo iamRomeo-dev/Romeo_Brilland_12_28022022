@@ -1,19 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
 import "twin.macro";
 import { FormCreation } from "./FormCreation";
 import { Modal } from "./Modal";
-import { useShowResult } from "./MyContext";
+import { useSetShowResults, useShowResult } from "./MyContext";
 
 export const Home = () => {
   const showResults = useShowResult();
-
+  const setShowResults = useSetShowResults();
   return (
     <>
       {showResults === true ? (
         <>
           <FormCreation />
-          <Modal />
+          <Modal showResults={showResults} setShowResults={setShowResults} />
         </>
       ) : (
         <FormCreation />
