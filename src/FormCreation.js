@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import "twin.macro";
-import { Button, PrimaryButton } from "./Button";
+import { PrimaryButton } from "./Button";
 import { ErrorMessage, FormGroup, Label, RequiredAsterisk } from "./Form";
 import { useSetShowResults } from "./MyContext";
 import { Department, USAStates } from "./utils/USAStates";
+import SuperInput from "super-romeoooo";
 
 export const FormCreation = () => {
   const setShowResults = useSetShowResults();
   const [department, setDepartment] = useState();
   const [state, setState] = useState();
-
+  const [birth_day, setBirth_day] = useState("");
   const tempDatas = [];
 
   const onSubmit = (data) => {
@@ -27,6 +27,7 @@ export const FormCreation = () => {
       ...data,
       department: department,
       state: state,
+      birth_day: birth_day,
       createdAt: new Date(),
     });
     localStorage.setItem("userData", JSON.stringify(tempDatas));
@@ -92,12 +93,12 @@ export const FormCreation = () => {
 
                   <FormGroup>
                     <Label htmlFor="birth_day">Date of birth</Label>
-                    <input
-                      id="birth_day"
+                    <SuperInput
                       name="birth_day"
                       type="date"
-                      {...register("birth_day")}
+                      value={birth_day}
                       tw="appearance-none block px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      onChange={(e) => setBirth_day(e.target.value)}
                     />
                   </FormGroup>
 
